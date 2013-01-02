@@ -15,10 +15,10 @@ public class Sky {
             @Override
             public List<Fire> generate(Fire master) {
                 ArrayList<Fire> fires = new ArrayList<Fire>();
-                for(int i=0;i<50;i++){
+                for(int i=0;i<25;i++){
                     V velocity1 = new V(master.getVelocity());
                     velocity1.add(randomVelocity(20));
-                    fires.add(new Fire(new V(master.getPosition()), velocity1, randomSubColor(firstHue), 10, new Payload() {
+                    fires.add(new Fire(new V(master.getPosition()), velocity1, randomSubColor(firstHue), 5, new Payload() {
                         @Override
                         public List<Fire> generate(Fire master) {
                             ArrayList<Fire> fires = new ArrayList<Fire>();
@@ -49,11 +49,8 @@ public class Sky {
                     fires.add(new Fire(new V(master.getPosition()), velocity1,
                             color, 20, null, false){
                         @Override
-                        public Collection<Fire> createSparks() {
-                            ArrayList<Fire> sparks = new ArrayList<Fire>();
-                            Fire spark = new Fire(new V(this.getPosition()), new V(0, 0, 0), color, 5, null, true);
-                            sparks.add(spark);
-                            return sparks;
+                        public Fire createSparks() {
+                            return new Fire(new V(this.getPosition()), new V(0, 0, 0), color, 5, null, true);
                         }
                     });
                 }
@@ -97,6 +94,11 @@ public class Sky {
         for (Fire fire : fires) {
             fire.update(newFires);
         }
-        fires=newFires;
+        for (Iterator<Fire> iterator = fires.iterator(); iterator.hasNext(); ) {
+            if(iterator.next().isRemove()){
+                iterator.remove();
+            };
+        }
+        fires.addAll(newFires);
     }
 }

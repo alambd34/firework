@@ -12,6 +12,7 @@ public class Fire {
     private int cyclesToExplode;
     private Payload payload;
     private boolean spark;
+    private boolean remove;
 
     public Fire(V position, V velocity, int color, int cyclesToExplode, Payload payload, boolean spark) {
         this.position = position;
@@ -31,15 +32,17 @@ public class Fire {
             if(payload!=null){
                 fires.addAll(payload.generate(this));
             }
+            remove=true;
         }else{
-            fires.addAll(createSparks());
-
-            fires.add(this);
+            Fire spark = createSparks();
+            if(spark!=null){
+                fires.add(spark);
+            }
         }
     }
 
-    public Collection<Fire> createSparks(){
-        return Collections.emptyList();
+    public Fire createSparks(){
+        return null;
     }
 
     public V getPosition() {
@@ -56,5 +59,9 @@ public class Fire {
 
     public boolean isSpark() {
         return spark;
+    }
+
+    public boolean isRemove() {
+        return remove;
     }
 }
