@@ -23,9 +23,9 @@ public class Fire {
     }
 
     public void update(LinkedList<Fire> fires){
-        velocity=velocity.add(GRAVITY);
-        velocity=velocity.scale(0.9f);
-        position=position.add(velocity);
+        velocity.add(GRAVITY);
+        velocity.scale(0.9f);
+        position.add(velocity);
         cyclesToExplode--;
         if(cyclesToExplode<=0){
             if(payload!=null){

@@ -16,7 +16,7 @@ public class FireView extends ImageView{
             postInvalidate();
         }
     };
-    private static final int FRAME_RATE = 60;
+    private static final int FRAME_RATE = 40;
     private Paint bgPaint;
     private Paint firePaint;
     private final Sky sky;
@@ -45,10 +45,10 @@ public class FireView extends ImageView{
             canvas = new Canvas(bmp);
         }
         if(Math.random()<0.02){
-            sky.init(randomColor(), randomColor());
+            sky.init(randomColor(), randomColor(), getWidth());
         }
         if(Math.random()<0.05){
-            sky.init2(randomColor());
+            sky.init2(randomColor(), getWidth());
         }
         sky.update();
         canvas.drawColor(Color.argb(128,0,0,0));
