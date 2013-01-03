@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import static net.examplefibulwinter.firework.FireGenerators.*;
+import static net.examplefibulwinter.firework.FireGenerators.multi;
 
 public class Sky {
     private List<Fire> fires = new ArrayList<Fire>();
@@ -16,33 +16,6 @@ public class Sky {
     }
 
     public void init(int width, int height) {
-//        fires.add(new Fire(new V(width/2,400,0), new V((float) ((Math.random()-0.5f)*5),(float) ((Math.random()-0.5f)*5)-50,0), Color.WHITE, false, 20, null, new Payload() {
-//            @Override
-//            public void generate(Fire master, List<Fire> fires) {
-//                for(int i=0;i<25;i++){
-//                    V velocity1 = new V(master.getVelocity());
-//                    velocity1.add(randomVelocity(20));
-//                    fires.add(new Fire(new V(master.getPosition()), velocity1, randomSubColor(firstHue), false, 5, null, new Payload() {
-//                        @Override
-//                        public void generate(Fire master, List<Fire> fires) {
-//                            for(int i=0;i<10;i++){
-//                                V velocity1 = new V(master.getVelocity());
-//                                velocity1.add(randomVelocity(5));
-//                                fires.add(new Fire(new V(master.getPosition()), velocity1,
-//                                        randomSubColor(secondHue), false, 10, null, null));
-//                            }
-//                        }
-//                    }));
-//                }
-//            }
-//        }));
-
-//        int colorBig = RandUtils.randomColor();
-//        int colorSmall = RandUtils.randomColor();
-//        Fire shot = FireGenerators.shot(Color.WHITE, -50, width, height);
-//        shot.setExplosion(multi(25, FireGenerators.bigExpl(colorBig, FireGenerators.multi(10, FireGenerators.smallExplosion(colorSmall)))));
-//        fires.add(shot);
-
         int colorBig = RandUtils.randomColor();
         int colorSmall = RandUtils.randomColor();
 
@@ -56,18 +29,6 @@ public class Sky {
     }
 
     public void init2(int width, int height) {
-//        fires.add(new Fire(new V(width/2,400,0), new V((float) ((Math.random()-0.5f)*10),(float) ((Math.random()-0.5f)*20)-50,0), Color.WHITE, false, 20, null, new Payload() {
-//            @Override
-//            public void generate(Fire master, List<Fire> fires) {
-//                for(int i=0;i<50;i++){
-//                    V velocity1 = new V(master.getVelocity());
-//                    velocity1.add(randomVelocity(20));
-//                    final int color = randomSubColor(firstHue);
-//                    fires.add(new Fire(new V(master.getPosition()), velocity1,
-//                            color, false, 20, FireGenerators.sparks(color), null));
-//                }
-//            }
-//        }));
         int color = RandUtils.randomColor();
         Payload spark = new PayloadBuilder(5).asSpark().build();
         Payload bigExplosion = multi(50, new PayloadBuilder(20).randomSpeed(20).color(color).randomSubColor().withSparks(spark).build());
@@ -75,13 +36,6 @@ public class Sky {
         shot.setExplosion(bigExplosion);
         fires.add(shot);
 
-    }
-
-    public void init3(int width, int height) {
-        Fire shot = FireGenerators.shot(Color.WHITE, -50, width, height);
-        shot.setSparks(FireGenerators.sparks(Color.RED));
-        shot.setExplosion(multi(50, big(Color.GREEN, sparks(Color.YELLOW))));
-        fires.add(shot);
     }
 
     private int randomSubColor(int firstHue) {
