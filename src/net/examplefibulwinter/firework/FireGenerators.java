@@ -46,7 +46,7 @@ public class FireGenerators {
         };
     }
 
-    public static Payload small(final int color) {
+    public static Payload smallExplosion(final int color) {
         return new Payload() {
             @Override
             public void generate(Fire master, List<Fire> fires) {

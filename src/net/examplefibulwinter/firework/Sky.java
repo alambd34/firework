@@ -36,11 +36,23 @@ public class Sky {
 //                }
 //            }
 //        }));
+
+//        int colorBig = RandUtils.randomColor();
+//        int colorSmall = RandUtils.randomColor();
+//        Fire shot = FireGenerators.shot(Color.WHITE, -50, width, height);
+//        shot.setExplosion(multi(25, FireGenerators.bigExpl(colorBig, FireGenerators.multi(10, FireGenerators.smallExplosion(colorSmall)))));
+//        fires.add(shot);
+
         int colorBig = RandUtils.randomColor();
         int colorSmall = RandUtils.randomColor();
+
+        Payload smallExplosion = multi(10, new PayloadBuilder(10).randomSpeed(5).color(colorSmall).randomSubColor().build());
+        Payload bigExplosion = multi(25, new PayloadBuilder(5).randomSpeed(20).color(colorBig).randomSubColor().withExplosion(smallExplosion).build());
         Fire shot = FireGenerators.shot(Color.WHITE, -50, width, height);
-        shot.setExplosion(multi(25, FireGenerators.bigExpl(colorBig, FireGenerators.multi(10, FireGenerators.small(colorSmall)))));
+        shot.setExplosion(bigExplosion);
         fires.add(shot);
+
+
     }
 
     public void init2(int width, int height) {
@@ -57,9 +69,12 @@ public class Sky {
 //            }
 //        }));
         int color = RandUtils.randomColor();
+        Payload spark = new PayloadBuilder(5).asSpark().build();
+        Payload bigExplosion = multi(50, new PayloadBuilder(20).randomSpeed(20).color(color).randomSubColor().withSparks(spark).build());
         Fire shot = FireGenerators.shot(Color.WHITE, -50, width, height);
-        shot.setExplosion(multi(50, big(color, sparks(color))));
+        shot.setExplosion(bigExplosion);
         fires.add(shot);
+
     }
 
     public void init3(int width, int height) {

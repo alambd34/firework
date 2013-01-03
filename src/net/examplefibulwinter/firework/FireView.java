@@ -47,9 +47,9 @@ public class FireView extends ImageView {
         if (Math.random() < 0.02) {
             sky.init(getWidth(), getHeight());
         }
-//        if(Math.random()<0.05){
-//            sky.init2(getWidth(), getHeight());
-//        }
+        if (Math.random() < 0.05) {
+            sky.init2(getWidth(), getHeight());
+        }
 //        if(Math.random()<0.1){
 //            sky.init3(getWidth(), getHeight());
 //        }
