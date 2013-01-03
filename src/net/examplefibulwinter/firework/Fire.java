@@ -12,9 +12,11 @@ public class Fire {
     private int cyclesToExplode;
     private Payload explosion;
     private boolean spark;
+    private float blinking;
     private boolean remove;
+    private float speedDegrading;
 
-    public Fire(V position, V velocity, int color, boolean spark, int cyclesToExplode, Payload sparks, Payload explosion) {
+    public Fire(V position, V velocity, int color, boolean spark, int cyclesToExplode, Payload sparks, Payload explosion, float blinking, float speedDegrading) {
         this.position = position;
         this.velocity = velocity;
         this.color = color;
@@ -22,12 +24,14 @@ public class Fire {
         this.cyclesToExplode = cyclesToExplode;
         this.explosion = explosion;
         this.spark = spark;
+        this.blinking = blinking;
+        this.speedDegrading = speedDegrading;
     }
 
     public void update(LinkedList<Fire> fires) {
         age++;
         velocity.add(GRAVITY);
-        velocity.scale(0.9f);
+        velocity.scale(speedDegrading);
         position.add(velocity);
         if (age >= cyclesToExplode) {
             if (explosion != null) {
@@ -39,6 +43,10 @@ public class Fire {
                 sparks.generate(this, fires);
             }
         }
+    }
+
+    public float getBlinking() {
+        return blinking;
     }
 
     public V getPosition() {

@@ -44,20 +44,21 @@ public class FireView extends ImageView {
             bmp = Bitmap.createBitmap(getWidth(), getHeight(), conf);
             canvas = new Canvas(bmp);
         }
-        if (Math.random() < 0.02) {
-            sky.init(getWidth(), getHeight());
-        }
-        if (Math.random() < 0.05) {
-            sky.init2(getWidth(), getHeight());
-        }
-//        if(Math.random()<0.1){
-//            sky.init3(getWidth(), getHeight());
+//        if (Math.random() < 0.02) {
+//            sky.init(getWidth(), getHeight());
 //        }
+//        if (Math.random() < 0.05) {
+//            sky.init2(getWidth(), getHeight());
+//        }
+        if (Math.random() < 0.03) {
+            sky.init3(getWidth(), getHeight());
+        }
         sky.update();
         canvas.drawColor(Color.argb(128, 0, 0, 0));
         for (Fire fire : sky.getFires()) {
             firePaint.setColor(fire.getColor());
             firePaint.setColorFilter(new PorterDuffColorFilter(fire.getColor(), PorterDuff.Mode.MULTIPLY));
+            if (fire.getBlinking() > 0 && Math.random() < fire.getBlinking()) continue;
             if (fire.isSpark()) {
                 canvas.drawPoint(fire.getPosition().x, fire.getPosition().y, firePaint);
             } else {

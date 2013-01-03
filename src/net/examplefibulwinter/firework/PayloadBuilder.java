@@ -7,9 +7,11 @@ public class PayloadBuilder {
     private int color = -1;
     private boolean randomSubColor = false;
     private boolean spark = false;
+    private float blinking = 0.0f;
     private int ticks;
     private Payload sparks;
     private Payload explosion;
+    private float speedDegrading = 0.9f;
 
     public PayloadBuilder(int ticks) {
         this.ticks = ticks;
@@ -35,6 +37,11 @@ public class PayloadBuilder {
         return this;
     }
 
+    public PayloadBuilder blinking(float blinking) {
+        this.blinking = blinking;
+        return this;
+    }
+
     public PayloadBuilder withSparks(Payload sparks) {
         this.sparks = sparks;
         return this;
@@ -42,6 +49,11 @@ public class PayloadBuilder {
 
     public PayloadBuilder withExplosion(Payload explosion) {
         this.explosion = explosion;
+        return this;
+    }
+
+    public PayloadBuilder speedDegrading(float speedDegrading) {
+        this.speedDegrading = speedDegrading;
         return this;
     }
 
@@ -58,7 +70,7 @@ public class PayloadBuilder {
                     c = RandUtils.randomSubColor(c);
                 }
                 fires.add(new Fire(new V(master.getPosition()), velocity,
-                        c, spark, ticks, sparks, explosion));
+                        c, spark, ticks, sparks, explosion, blinking, speedDegrading));
             }
         };
     }

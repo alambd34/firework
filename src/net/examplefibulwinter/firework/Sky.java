@@ -24,8 +24,25 @@ public class Sky {
         Fire shot = FireGenerators.shot(Color.WHITE, -50, width, height);
         shot.setExplosion(bigExplosion);
         fires.add(shot);
+    }
 
+    public void init3(int width, int height) {
 
+//        int trunkColor = Color.rgb(139, 69, 19);
+        int trunkColor = Color.rgb(210, 105, 30);
+        Payload trunkSparks = multi(6, new PayloadBuilder(30).randomSpeed(7).color(Color.WHITE).asSpark().blinking(0.5f).speedDegrading(0.4f).build());
+        Payload leafSparks = multi(3, new PayloadBuilder(10).color(Color.GREEN).blinking(0.5f).randomSpeed(3).asSpark().speedDegrading(0.7f).build());
+        Payload leafs = multi(50, new PayloadBuilder(10).color(Color.GREEN)
+                .randomSpeed(20).withSparks(leafSparks).speedDegrading(0.9f).build());
+        Payload coconut = multi(10, new PayloadBuilder(10).color(Color.RED)
+                .randomSpeed(5).speedDegrading(0.5f).build());
+        Payload coconuts = multi(6, new PayloadBuilder(3).color(Color.BLACK).asSpark()
+                .randomSpeed(10).withExplosion(coconut).build());
+
+        Fire shot = FireGenerators.shot(Color.WHITE, -50, width, height);
+        shot.setSparks(trunkSparks);
+        shot.setExplosion(FireGenerators.combine(leafs, coconuts));
+        fires.add(shot);
     }
 
     public void init2(int width, int height) {
