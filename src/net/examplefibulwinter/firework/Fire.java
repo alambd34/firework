@@ -1,52 +1,52 @@
 package net.examplefibulwinter.firework;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.LinkedList;
 
 public class Fire {
-    private static V GRAVITY = new V(0,1,0);
+    private static V GRAVITY = new V(0, 1, 0);
     private V position;
     private V velocity;
     private int color;
+    private int age;
+    private Payload sparks;
     private int cyclesToExplode;
-    private Payload payload;
+    private Payload explosion;
     private boolean spark;
     private boolean remove;
 
-    public Fire(V position, V velocity, int color, int cyclesToExplode, Payload payload, boolean spark) {
+    public Fire(V position, V velocity, int color, boolean spark, int cyclesToExplode, Payload sparks, Payload explosion) {
         this.position = position;
         this.velocity = velocity;
         this.color = color;
+        this.sparks = sparks;
         this.cyclesToExplode = cyclesToExplode;
-        this.payload = payload;
+        this.explosion = explosion;
         this.spark = spark;
     }
 
-    public void update(LinkedList<Fire> fires){
+    public void update(LinkedList<Fire> fires) {
+        age++;
         velocity.add(GRAVITY);
         velocity.scale(0.9f);
         position.add(velocity);
-        cyclesToExplode--;
-        if(cyclesToExplode<=0){
-            if(payload!=null){
-                fires.addAll(payload.generate(this));
+        if (age >= cyclesToExplode) {
+            if (explosion != null) {
+                explosion.generate(this, fires);
             }
-            remove=true;
-        }else{
-            Fire spark = createSparks();
-            if(spark!=null){
-                fires.add(spark);
+            remove = true;
+        } else {
+            if (sparks != null) {
+                sparks.generate(this, fires);
             }
         }
     }
 
-    public Fire createSparks(){
-        return null;
-    }
-
     public V getPosition() {
         return position;
+    }
+
+    public int getAge() {
+        return age;
     }
 
     public V getVelocity() {
@@ -63,5 +63,13 @@ public class Fire {
 
     public boolean isRemove() {
         return remove;
+    }
+
+    public void setSparks(Payload sparks) {
+        this.sparks = sparks;
+    }
+
+    public void setExplosion(Payload explosion) {
+        this.explosion = explosion;
     }
 }
