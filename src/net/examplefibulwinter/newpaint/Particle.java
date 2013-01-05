@@ -8,11 +8,11 @@ public class Particle {
 
     private V position;
     private V velocity;
-    private PainterR painter;
+    private Painter painter;
     private boolean remove;
     private int ttl = (int) (15 + Math.random() * 5);
 
-    public Particle(V position, V velocity, PainterR painter) {
+    public Particle(V position, V velocity, Painter painter) {
         this.position = position;
         this.velocity = velocity;
         this.painter = painter;

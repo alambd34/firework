@@ -9,8 +9,8 @@ public class Painters {
         this.icons = icons;
     }
 
-    public PainterR big(final int color) {
-        return new PainterR() {
+    public Painter big(final int color) {
+        return new Painter() {
             Paint paint;
 
             {

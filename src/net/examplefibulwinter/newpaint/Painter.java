@@ -2,6 +2,6 @@ package net.examplefibulwinter.newpaint;
 
 import android.graphics.Canvas;
 
-public interface PainterR {
+public interface Painter {
     void draw(Canvas canvas, Particle particle, float virtualToRealK);
 }
