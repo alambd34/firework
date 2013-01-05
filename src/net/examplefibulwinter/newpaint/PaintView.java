@@ -1,19 +1,12 @@
 package net.examplefibulwinter.newpaint;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.widget.ImageView;
-import net.examplefibulwinter.firework.R;
 import net.examplefibulwinter.firework.RandUtils;
 import net.examplefibulwinter.firework.V;
-
-import java.util.Iterator;
 
 public class PaintView extends ImageView {
 
@@ -25,67 +18,30 @@ public class PaintView extends ImageView {
         }
     };
     private static final int FRAME_RATE = 10;
-    private Paint fpsPaint;
-    private Paint firePaint;
-    private Bitmap particleIconBitmap;
-    private Canvas canvas;
-    private Bitmap bmp;
-
     private Painters painters = new Painters();
-    private long second;
-    private int lastFps;
-    private int fps;
+    private FpsCounter fpsCounter;
+    private FadingCanvas fadingCanvas;
+    private Icons icons;
 
     public PaintView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        firePaint = new Paint();
-//        firePaint.setColor(Color.GREEN);
-//        firePaint.setColorFilter(new PorterDuffColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY));
-        fpsPaint = new Paint();
-        fpsPaint.setColor(Color.WHITE);
         h = new Handler();
-        BitmapDrawable particleIcon = (BitmapDrawable) context.getResources().getDrawable(R.drawable.particle);
-        particleIconBitmap = particleIcon.getBitmap();
-        second = System.currentTimeMillis() / 1000;
+        fpsCounter = new FpsCounter();
+        fadingCanvas = new FadingCanvas();
+        icons = new Icons(context.getResources());
     }
 
     @Override
     protected void onDraw(Canvas realCanvas) {
-        if (bmp == null) {
-            Bitmap.Config conf = Bitmap.Config.ARGB_8888; // see other conf types
-            bmp = Bitmap.createBitmap(getWidth(), getHeight(), conf);
-            canvas = new Canvas(bmp);
-        }
-//        if (Math.random() < 0.02) {
-//            sky.init(getWidth(), getHeight());
-//        }
-//        if (Math.random() < 0.05) {
-//            sky.init2(getWidth(), getHeight());
-//        }
-        canvas.drawColor(Color.argb(50, 0, 0, 0));
+        fadingCanvas.makeSureWeHaveCanvas(realCanvas);
+        fadingCanvas.fade();
         for (Painter painter : painters.getPainters()) {
-            painter.paint(canvas, particleIconBitmap, painters);
+            painter.paint(fadingCanvas.getCanvas(), painters);
         }
-        for (Iterator<Painter> iterator = painters.getPainters().iterator(); iterator.hasNext(); ) {
-            Painter painter = iterator.next();
-            V position = painter.getPosition();
-            if (painter.isRemove() || position.y < 0 || position.y > getHeight() || position.x < 0 || position.x > getWidth()) {
-                iterator.remove();
-            }
-        }
-        painters.addNew();
+        painters.cycle(getHeight(), getWidth());
         createNewPainter();
-        realCanvas.drawBitmap(bmp, 0f, 0f, null);
-        long currentSecond = System.currentTimeMillis() / 1000;
-        if (currentSecond != second) {
-            second = currentSecond;
-            lastFps = fps;
-            fps = 0;
-        } else {
-            fps++;
-        }
-        fps++;
-        realCanvas.drawText("C=" + painters.getPainters().size() + " FPS=" + lastFps, 20, 20, fpsPaint);
+        fadingCanvas.drawOn(realCanvas);
+        fpsCounter.updateAndShowFps(painters.getPainters().size(), realCanvas);
         h.postDelayed(r, FRAME_RATE);
     }
 
@@ -97,7 +53,7 @@ public class PaintView extends ImageView {
             for (int i = 0; i < 50; i++) {
                 V velocity = RandUtils.randomVelocity(10);
                 velocity.add(up);
-                painters.add(new Painter(new V(center), velocity, RandUtils.randomSubColor(color)));
+                painters.add(new Painter(icons, new V(center), velocity, RandUtils.randomSubColor(color)));
             }
         }
     }

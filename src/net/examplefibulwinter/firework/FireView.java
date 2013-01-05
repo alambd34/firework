@@ -50,9 +50,11 @@ public class FireView extends ImageView {
 //        if (Math.random() < 0.05) {
 //            sky.init2(getWidth(), getHeight());
 //        }
-        if (Math.random() < 0.03) {
+        if (Math.random() < 0.05) {
             sky.init3(getWidth(), getHeight());
         }
+        sky.update();
+        sky.update();
         sky.update();
         canvas.drawColor(Color.argb(128, 0, 0, 0));
         for (Fire fire : sky.getFires()) {

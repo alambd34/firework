@@ -12,6 +12,7 @@ public class PayloadBuilder {
     private Payload sparks;
     private Payload explosion;
     private float speedDegrading = 0.9f;
+    private boolean freeFall = false;
 
     public PayloadBuilder(int ticks) {
         this.ticks = ticks;
@@ -34,6 +35,11 @@ public class PayloadBuilder {
 
     public PayloadBuilder asSpark() {
         this.spark = true;
+        return this;
+    }
+
+    public PayloadBuilder freeFall() {
+        this.freeFall = true;
         return this;
     }
 
@@ -61,7 +67,7 @@ public class PayloadBuilder {
         return new Payload() {
             @Override
             public void generate(Fire master, List<Fire> fires) {
-                V velocity = new V(master.getVelocity());
+                V velocity = freeFall ? new V(0, 0, 0) : new V(master.getVelocity());
                 if (speed > 0) {
                     velocity.add(RandUtils.randomVelocity(speed));
                 }
@@ -70,7 +76,7 @@ public class PayloadBuilder {
                     c = RandUtils.randomSubColor(c);
                 }
                 fires.add(new Fire(new V(master.getPosition()), velocity,
-                        c, spark, ticks, sparks, explosion, blinking, speedDegrading));
+                        c, spark, (int) ((0.8 + Math.random() * 0.4) * ticks), sparks, explosion, blinking, speedDegrading));
             }
         };
     }

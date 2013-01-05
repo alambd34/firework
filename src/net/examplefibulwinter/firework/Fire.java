@@ -3,7 +3,7 @@ package net.examplefibulwinter.firework;
 import java.util.LinkedList;
 
 public class Fire {
-    private static V GRAVITY = new V(0, 1, 0);
+    private static V GRAVITY = new V(0, 0.5f, 0);
     private V position;
     private V velocity;
     private int color;

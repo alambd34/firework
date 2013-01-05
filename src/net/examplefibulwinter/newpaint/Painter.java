@@ -5,6 +5,8 @@ import net.examplefibulwinter.firework.V;
 
 public class Painter {
     private static final V GRAVITY = new V(0, 1, 0);
+
+    private final Icons icons;
     private V position;
     private V velocity;
     private V scaledVelocity;
@@ -13,7 +15,8 @@ public class Painter {
     private boolean remove;
     private int ttl = (int) (15 + Math.random() * 5);
 
-    public Painter(V position, V velocity, int color) {
+    public Painter(Icons icons, V position, V velocity, int color) {
+        this.icons = icons;
         this.position = position;
         this.velocity = velocity;
         this.scaledVelocity = new V(velocity);
@@ -44,7 +47,8 @@ public class Painter {
         return steps;
     }
 
-    public void paint(Canvas canvas, Bitmap particleIconBitmap, Painters painters) {
+    public void paint(Canvas canvas, Painters painters) {
+        Bitmap particleIconBitmap = icons.getParticleIconBitmap();
         int cycles = getCycles();
         for (int i = 0; i < cycles; i++) {
             update();

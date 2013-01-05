@@ -1,6 +1,9 @@
 package net.examplefibulwinter.newpaint;
 
+import net.examplefibulwinter.firework.V;
+
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Painters {
@@ -16,8 +19,25 @@ public class Painters {
         newPainters.add(painter);
     }
 
-    public void addNew() {
+    public void cycle(int height, int width) {
+        removeDead(height, width);
+        addNew();
+    }
+
+    private void removeDead(int height, int width) {
+        for (Iterator<Painter> iterator = painters.iterator(); iterator.hasNext(); ) {
+            Painter painter = iterator.next();
+            V position = painter.getPosition();
+            if (painter.isRemove() || position.y < 0 || position.y > height || position.x < 0 || position.x > width) {
+                iterator.remove();
+            }
+        }
+    }
+
+    private void addNew() {
         painters.addAll(newPainters);
         newPainters.clear();
     }
+
+
 }
