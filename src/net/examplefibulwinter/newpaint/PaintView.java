@@ -18,30 +18,30 @@ public class PaintView extends ImageView {
         }
     };
     private static final int FRAME_RATE = 10;
-    private Painters painters = new Painters();
+    private Particles particles = new Particles();
     private FpsCounter fpsCounter;
     private FadingCanvas fadingCanvas;
-    private Icons icons;
+    private Painters painters;
 
     public PaintView(Context context, AttributeSet attrs) {
         super(context, attrs);
         h = new Handler();
         fpsCounter = new FpsCounter();
         fadingCanvas = new FadingCanvas();
-        icons = new Icons(context.getResources());
+        painters = new Painters(new Icons(context.getResources()));
     }
 
     @Override
     protected void onDraw(Canvas realCanvas) {
         fadingCanvas.makeSureWeHaveCanvas(realCanvas);
         fadingCanvas.fade();
-        for (Painter painter : painters.getPainters()) {
-            painter.paint(fadingCanvas.getCanvas(), painters);
+        for (Particle particle : particles.getParticles()) {
+            particle.paint(fadingCanvas.getCanvas(), particles);
         }
-        painters.cycle();
+        particles.cycle();
         createNewPainter();
         fadingCanvas.drawOn(realCanvas);
-        fpsCounter.updateAndShowFps(painters.getPainters().size(), realCanvas);
+        fpsCounter.updateAndShowFps(particles.getParticles().size(), realCanvas);
         h.postDelayed(r, FRAME_RATE);
     }
 
@@ -53,7 +53,7 @@ public class PaintView extends ImageView {
             for (int i = 0; i < 50; i++) {
                 V velocity = RandUtils.randomVelocity(10);
                 velocity.add(up);
-                painters.add(new Painter(icons, new V(center), velocity, RandUtils.randomSubColor(color)));
+                particles.add(new Particle(new V(center), velocity, painters.big(RandUtils.randomSubColor(color))));
             }
         }
     }

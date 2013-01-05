@@ -1,40 +1,33 @@
 package net.examplefibulwinter.newpaint;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import android.graphics.*;
 
 public class Painters {
-    private List<Painter> painters = new ArrayList<Painter>();
-    private List<Painter> newPainters = new ArrayList<Painter>();
+    private Icons icons;
 
-
-    public List<Painter> getPainters() {
-        return painters;
+    public Painters(Icons icons) {
+        this.icons = icons;
     }
 
-    public void add(Painter painter) {
-        newPainters.add(painter);
-    }
+    public PainterR big(final int color) {
+        return new PainterR() {
+            Paint paint;
 
-    public void cycle() {
-        removeDead();
-        addNew();
-    }
-
-    private void removeDead() {
-        for (Iterator<Painter> iterator = painters.iterator(); iterator.hasNext(); ) {
-            Painter painter = iterator.next();
-            if (painter.isRemove() || !VirtualScreen.isInside(painter.getPosition())) {
-                iterator.remove();
+            {
+                paint = new Paint();
+//                paint.setColor(Color.WHITE);
+                paint.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.MULTIPLY));
             }
-        }
+
+
+            @Override
+            public void draw(Canvas canvas, Particle particle, float virtualToRealK) {
+                Bitmap particleIconBitmap = icons.getParticleIconBitmap();
+                canvas.drawBitmap(particleIconBitmap, particle.getPosition().x * virtualToRealK - particleIconBitmap.getWidth() / 2,
+                        particle.getPosition().y * virtualToRealK - particleIconBitmap.getHeight() / 2, paint);
+//                canvas.drawPoint(particle.getPosition().x * virtualToRealK+ RandUtils.rand(-20,20),
+//                        particle.getPosition().y * virtualToRealK+ RandUtils.rand(-20,20),paint);
+            }
+        };
     }
-
-    private void addNew() {
-        painters.addAll(newPainters);
-        newPainters.clear();
-    }
-
-
 }

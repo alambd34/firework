@@ -42,4 +42,8 @@ public class RandUtils {
         hsv[2] = 1;
         return Color.HSVToColor(hsv);
     }
+
+    public static float rand(float min, float max) {
+        return (float) (Math.random() * (max - min) + min);
+    }
 }
