@@ -50,10 +50,15 @@ public class PaintView extends ImageView {
             V center = VirtualScreen.getRelative((float) (Math.random() / 2 + 0.25), (float) (Math.random() / 2 + 0.25));
             int color = RandUtils.randomColor();
             V up = new V(0, -7, 0);
+            int altColor = RandUtils.randomColor();
             for (int i = 0; i < 50; i++) {
                 V velocity = RandUtils.randomVelocity(10);
                 velocity.add(up);
-                particles.add(new Particle(new V(center), velocity, painters.big(RandUtils.randomSubColor(color))));
+                Particle particle = new Particle(new V(center), velocity);
+                particle.setPainter(painters.big(RandUtils.randomSubColor(color)));
+                particle.add(Emitters.timeToLive((int) (15 + Math.random() * 5)));
+                particle.add(Emitters.at(12, Emitters.repeat(10, Emitters.explode(painters, altColor))));
+                particles.add(particle);
             }
         }
     }

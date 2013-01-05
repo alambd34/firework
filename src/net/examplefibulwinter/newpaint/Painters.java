@@ -30,4 +30,22 @@ public class Painters {
             }
         };
     }
+
+    public Painter small(final int color) {
+        return new Painter() {
+            Paint paint;
+
+            {
+                paint = new Paint();
+                paint.setColor(color);
+            }
+
+
+            @Override
+            public void draw(Canvas canvas, Particle particle, float virtualToRealK) {
+                canvas.drawPoint(particle.getPosition().x * virtualToRealK,
+                        particle.getPosition().y * virtualToRealK, paint);
+            }
+        };
+    }
 }
