@@ -12,22 +12,28 @@ public class V {
     }
 
     public V(V v) {
-        this(v.x,v.y,v.z);
+        this(v.x, v.y, v.z);
     }
 
     public void add(V v) {
-        x+=v.x;
-        y+=v.y;
-        z+=v.z;
+        x += v.x;
+        y += v.y;
+        z += v.z;
     }
 
     public float squareLength() {
-        return x*x+y*y+z*z;
+        return x * x + y * y + z * z;
     }
 
     public void scale(float scale) {
-        x*=scale;
-        y*=scale;
-        z*=scale;
+        x *= scale;
+        y *= scale;
+        z *= scale;
+    }
+
+    public void setScaled(V v, float scale) {
+        x = v.x * scale;
+        y = v.y * scale;
+        z = v.z * scale;
     }
 }
