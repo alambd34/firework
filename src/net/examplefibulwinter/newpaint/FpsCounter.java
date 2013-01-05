@@ -27,7 +27,7 @@ public class FpsCounter {
             fps++;
         }
         fps++;
-        realCanvas.drawText("C=" + objectCount + " FPS=" + lastFps, 20, 20, fpsPaint);
+        realCanvas.drawText("C=" + objectCount + " FPS=" + lastFps + " " + realCanvas.getWidth() + "x" + realCanvas.getHeight(), 20, 20, fpsPaint);
     }
 
 }

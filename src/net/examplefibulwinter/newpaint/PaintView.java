@@ -38,7 +38,7 @@ public class PaintView extends ImageView {
         for (Painter painter : painters.getPainters()) {
             painter.paint(fadingCanvas.getCanvas(), painters);
         }
-        painters.cycle(getHeight(), getWidth());
+        painters.cycle();
         createNewPainter();
         fadingCanvas.drawOn(realCanvas);
         fpsCounter.updateAndShowFps(painters.getPainters().size(), realCanvas);
@@ -47,7 +47,7 @@ public class PaintView extends ImageView {
 
     private void createNewPainter() {
         if (Math.random() < 0.05) {
-            V center = new V((float) (Math.random() / 2 + 0.25) * getWidth(), (float) (Math.random() / 2 + 0.25) * getHeight(), 0);
+            V center = VirtualScreen.getRelative((float) (Math.random() / 2 + 0.25), (float) (Math.random() / 2 + 0.25));
             int color = RandUtils.randomColor();
             V up = new V(0, -7, 0);
             for (int i = 0; i < 50; i++) {

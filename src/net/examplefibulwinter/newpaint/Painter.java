@@ -37,9 +37,9 @@ public class Painter {
         position.add(scaledVelocity);
     }
 
-    private int getCycles() {
+    private int getCycles(float virtualToRealK) {
         velocity.add(GRAVITY);
-        int steps = (int) Math.max(Math.abs(velocity.x), Math.abs(velocity.y));
+        int steps = (int) (Math.max(Math.abs(velocity.x), Math.abs(velocity.y)) * virtualToRealK);
         if (steps == 0) {
             steps = 1;
         }
@@ -49,12 +49,13 @@ public class Painter {
 
     public void paint(Canvas canvas, Painters painters) {
         Bitmap particleIconBitmap = icons.getParticleIconBitmap();
-        int cycles = getCycles();
+        float virtualToRealK = VirtualScreen.virtualToReal(canvas);
+        int cycles = getCycles(virtualToRealK);
         for (int i = 0; i < cycles; i++) {
             update();
 //                canvas.drawPoint(painter.getPosition().x, painter.getPosition().y, firePaint);
-            canvas.drawBitmap(particleIconBitmap, getPosition().x - particleIconBitmap.getWidth() / 2,
-                    getPosition().y - particleIconBitmap.getHeight() / 2, paint);
+            canvas.drawBitmap(particleIconBitmap, getPosition().x * virtualToRealK - particleIconBitmap.getWidth() / 2,
+                    getPosition().y * virtualToRealK - particleIconBitmap.getHeight() / 2, paint);
         }
         ttl--;
         if (ttl <= 0) {
