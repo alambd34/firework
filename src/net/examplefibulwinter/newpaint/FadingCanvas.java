@@ -10,10 +10,10 @@ public class FadingCanvas {
     private Bitmap bmp;
 
 
-    public void makeSureWeHaveCanvas(Canvas realCanvas) {
+    public void makeSureWeHaveCanvas(int width, int height) {
         if (bmp == null) {
             Bitmap.Config conf = Bitmap.Config.ARGB_8888; // see other conf types
-            bmp = Bitmap.createBitmap(realCanvas.getWidth(), realCanvas.getHeight(), conf);
+            bmp = Bitmap.createBitmap(width, height, conf);
             canvas = new Canvas(bmp);
         }
     }
@@ -22,8 +22,8 @@ public class FadingCanvas {
         canvas.drawColor(Color.argb(50, 0, 0, 0));
     }
 
-    public void drawOn(Canvas realCanvas) {
-        realCanvas.drawBitmap(bmp, 0f, 0f, null);
+    public Bitmap getBmp() {
+        return bmp;
     }
 
 

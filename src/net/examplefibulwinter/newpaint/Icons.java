@@ -9,7 +9,7 @@ public class Icons {
     private Bitmap particleIconBitmap;
 
     public Icons(Resources resources) {
-        BitmapDrawable particleIcon = (BitmapDrawable) resources.getDrawable(R.drawable.particle);
+        BitmapDrawable particleIcon = (BitmapDrawable) resources.getDrawable(R.drawable.particle3x3b9x9);
         particleIconBitmap = particleIcon.getBitmap();
     }
 

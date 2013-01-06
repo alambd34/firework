@@ -50,4 +50,8 @@ public class RandUtils {
     public static int rand(int min, int max) {
         return (int) (Math.random() * (max - min) + min);
     }
+
+    public static boolean withProbability(float probaility) {
+        return Math.random() < probaility;
+    }
 }

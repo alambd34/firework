@@ -48,4 +48,32 @@ public class Emitters {
             }
         };
     }
+
+    public static Emitter shot(final Painter painter) {
+        return new Emitter() {
+            @Override
+            public void emit(Particle master, Particles particles) {
+                Particle particle = new Particle(VirtualScreen.getRelative(0.5f, 1f),
+                        new V(RandUtils.rand(-2.5f, 2.5f), RandUtils.rand(-30, -25), 0));
+                particle.add(Emitters.timeToLive(20));
+                particle.setPainter(painter);
+                particles.add(particle);
+            }
+        };
+    }
+
+    public static Emitter explode(final float speed, final Painter painter) {
+        return new Emitter() {
+            @Override
+            public void emit(Particle master, Particles particles) {
+                V velocity = RandUtils.randomVelocity(speed);
+                velocity.add(master.getVelocity());
+                Particle particle = new Particle(new V(master.getPosition()),
+                        velocity);
+                particle.add(Emitters.timeToLive(RandUtils.rand(15, 20)));
+                particle.setPainter(painter);
+                particles.add(particle);
+            }
+        };
+    }
 }

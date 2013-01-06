@@ -1,6 +1,7 @@
 package net.examplefibulwinter.newpaint;
 
 import android.graphics.*;
+import net.examplefibulwinter.firework.RandUtils;
 
 public class Painters {
     private Icons icons;
@@ -31,7 +32,35 @@ public class Painters {
         };
     }
 
-    public Painter small(final int color) {
+    public Painter bigSparking(final int color) {
+        return new Painter() {
+            Paint paint;
+
+            {
+                paint = new Paint();
+                paint.setColor(Color.WHITE);
+                paint.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.MULTIPLY));
+            }
+
+
+            @Override
+            public void draw(Canvas canvas, Particle particle, float virtualToRealK) {
+                Bitmap particleIconBitmap = icons.getParticleIconBitmap();
+                canvas.drawBitmap(particleIconBitmap, particle.getPosition().x * virtualToRealK - particleIconBitmap.getWidth() / 2,
+                        particle.getPosition().y * virtualToRealK - particleIconBitmap.getHeight() / 2, paint);
+                if (RandUtils.withProbability(0.2f)) {
+                    canvas.drawPoint(
+                            particle.getPosition().x * virtualToRealK + RandUtils.rand(-2f, 2f),
+                            particle.getPosition().x * virtualToRealK + RandUtils.rand(-2f, 2f),
+                            paint);
+                }
+//                canvas.drawPoint(particle.getPosition().x * virtualToRealK+ RandUtils.rand(-20,20),
+//                        particle.getPosition().y * virtualToRealK+ RandUtils.rand(-20,20),paint);
+            }
+        };
+    }
+
+    public static Painter small(final int color) {
         return new Painter() {
             Paint paint;
 
@@ -45,6 +74,26 @@ public class Painters {
             public void draw(Canvas canvas, Particle particle, float virtualToRealK) {
                 canvas.drawPoint(particle.getPosition().x * virtualToRealK,
                         particle.getPosition().y * virtualToRealK, paint);
+            }
+        };
+    }
+
+    public static Painter blinking(final int color, final float blinkShare) {
+        return new Painter() {
+            Paint paint;
+
+            {
+                paint = new Paint();
+                paint.setColor(color);
+            }
+
+
+            @Override
+            public void draw(Canvas canvas, Particle particle, float virtualToRealK) {
+                if (!RandUtils.withProbability(blinkShare)) {
+                    canvas.drawPoint(particle.getPosition().x * virtualToRealK,
+                            particle.getPosition().y * virtualToRealK, paint);
+                }
             }
         };
     }
