@@ -13,9 +13,11 @@ public class Particle {
     private V velocity;
     private float speedDegradingFactor = 0.9f;
     private Painter painter;
+    private Painter realPainter;
     private boolean remove;
     private int age = 0;
     private List<Emitter> emitters = new ArrayList<Emitter>();
+    private V gravity = new V(GRAVITY);
 
     public Particle(V position, V velocity) {
         this.position = position;
@@ -24,6 +26,13 @@ public class Particle {
 
     public void setSpeedDegradingFactor(float speedDegradingFactor) {
         this.speedDegradingFactor = speedDegradingFactor;
+        this.gravity = new V(GRAVITY);
+        gravity.scale(speedDegradingFactor);
+    }
+
+    public void setGravityDegradingFactor(float gravityDegradingFactor) {
+        this.gravity = new V(GRAVITY);
+        gravity.scale(gravityDegradingFactor);
     }
 
     public void paint(Canvas canvas, Particles particles) {
@@ -39,6 +48,10 @@ public class Particle {
         this.painter = painter;
     }
 
+    public void setRealPainter(Painter realPainter) {
+        this.realPainter = realPainter;
+    }
+
     public V getPosition() {
         return position;
     }
@@ -48,7 +61,7 @@ public class Particle {
     }
 
     private void physicalUpdate(Particles particles) {
-        velocity.add(GRAVITY);
+        velocity.add(gravity);
         velocity.scale(speedDegradingFactor);
         age++;
         for (Emitter emitter : emitters) {
@@ -90,7 +103,9 @@ public class Particle {
     }
 
     public void paintReal(Canvas realCanvas) {
-//        painter.draw(realCanvas, this, VirtualScreen.virtualToReal(realCanvas));
+        if (realPainter != null) {
+            realPainter.draw(realCanvas, this, VirtualScreen.virtualToReal(realCanvas));
+        }
     }
 
     public Painter getPainter() {

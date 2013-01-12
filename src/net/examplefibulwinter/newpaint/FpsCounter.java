@@ -17,7 +17,7 @@ public class FpsCounter {
         second = System.currentTimeMillis() / 1000;
     }
 
-    public void updateAndShowFps(int objectCount, Canvas realCanvas) {
+    public void updateAndShowFps(int objectCount, Canvas realCanvas, boolean paused) {
         long currentSecond = System.currentTimeMillis() / 1000;
         if (currentSecond != second) {
             second = currentSecond;
@@ -27,7 +27,8 @@ public class FpsCounter {
             fps++;
         }
         fps++;
-        realCanvas.drawText("C=" + objectCount + " FPS=" + lastFps + " " + realCanvas.getWidth() + "x" + realCanvas.getHeight(), 20, 20, fpsPaint);
+        String canvasSize = (paused ? "PAUSED" : "") + realCanvas.getWidth() + "x" + realCanvas.getHeight();
+        realCanvas.drawText(canvasSize + " FPS=" + lastFps + " " + " C=" + objectCount, 20, 20, fpsPaint);
     }
 
 }

@@ -10,6 +10,7 @@ public class EmitterBuilder {
 
     private float speed = 0;
     private Painter painter = null;
+    private Painter realPainter = null;
     private Painters painters;
     private int color = -1;
     private boolean randomSubColor = false;
@@ -17,11 +18,19 @@ public class EmitterBuilder {
     private float blinking = 0.0f;
     private List<Emitter> emitters = new ArrayList<Emitter>();
     private float speedDegrading = 0.9f;
+    private float gravityDegrading = 1f;
     private boolean freeFall = false;
     private boolean shot;
+    private int minTtl = 0;
+    private int maxTtl = 0;
 
     public EmitterBuilder ttl(int ticks) {
-        emitters.add(Emitters.timeToLive(ticks));
+        return ttl(ticks, ticks);
+    }
+
+    public EmitterBuilder ttl(int min, int max) {
+        this.minTtl = min;
+        this.maxTtl = max;
         return this;
     }
 
@@ -32,6 +41,11 @@ public class EmitterBuilder {
 
     public EmitterBuilder painter(Painter painter) {
         this.painter = painter;
+        return this;
+    }
+
+    public EmitterBuilder realPainter(Painter painter) {
+        this.realPainter = painter;
         return this;
     }
 
@@ -71,6 +85,11 @@ public class EmitterBuilder {
         return this;
     }
 
+    public EmitterBuilder gravity(float gravityDegrading) {
+        this.gravityDegrading = gravityDegrading;
+        return this;
+    }
+
     public Emitter build() {
         return new Emitter() {
             @Override
@@ -87,14 +106,23 @@ public class EmitterBuilder {
                     }
                 }
                 Painter p;
-                if (color != -1 && randomSubColor) {
-                    p = painters.big(RandUtils.randomSubColor(color));
+                if (color != -1) {
+                    if (randomSubColor) {
+                        p = painters.big(RandUtils.randomSubColor(color));
+                    } else {
+                        p = painters.big(color);
+                    }
                 } else {
                     p = painter == null ? master.getPainter() : painter;
                 }
                 Particle particle = new Particle(position, velocity);
                 particle.setSpeedDegradingFactor(speedDegrading);
+                particle.setGravityDegradingFactor(gravityDegrading);
                 particle.setPainter(p);
+                particle.setRealPainter(realPainter);
+                if (minTtl != 0 && maxTtl != 0) {
+                    particle.add(Emitters.timeToLive(RandUtils.rand(minTtl, maxTtl)));
+                }
                 for (Emitter emitter : emitters) {
                     particle.add(emitter);
                 }

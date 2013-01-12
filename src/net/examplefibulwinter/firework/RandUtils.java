@@ -17,6 +17,25 @@ public class RandUtils {
             v.scale((float) (1 / Math.sqrt(v.squareLength())));
             rands[i] = v;
         }
+        for (int i = 0; i < 100; i++) {
+            spread();
+        }
+    }
+
+    private static void spread() {
+        for (int i = 0; i < rands.length; i++) {
+            V vector = new V(0, 0, 0);
+            for (V v : rands) {
+                if (v.squareLength(rands[i]) < 0.3 * 0.3) {
+                    vector.add(rands[i]);
+                    vector.sub(v);
+                }
+            }
+            vector.normalize();
+            vector.scale(0.1f);
+            rands[i].add(vector);
+            rands[i].normalize();
+        }
     }
 
     public static V randomVelocity(float speed) {
@@ -30,8 +49,8 @@ public class RandUtils {
         float[] hsv = new float[3];
         Color.colorToHSV(color, hsv);
         hsv[0] = ((float) (Math.random() * 50 - 25) + hsv[0]) % 360;
-        hsv[1] = (float) (Math.random() * 0.3 + 0.7);
-        hsv[2] = 1;
+//        hsv[1] = (float) (Math.random() * 0.3 + 0.7);
+//        hsv[2] = 1;
         return Color.HSVToColor((int) (Math.random() * 50 + 200), hsv);
     }
 

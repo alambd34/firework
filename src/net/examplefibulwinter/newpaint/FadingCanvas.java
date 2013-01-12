@@ -19,7 +19,7 @@ public class FadingCanvas {
     }
 
     public void fade() {
-        canvas.drawColor(Color.argb(50, 0, 0, 0));
+        canvas.drawColor(Color.argb(75, 0, 0, 0));
     }
 
     public Bitmap getBmp() {

@@ -7,13 +7,18 @@ import net.examplefibulwinter.firework.R;
 
 public class Icons {
     private Bitmap particleIconBitmap;
+    private Bitmap headIconBitmap;
 
     public Icons(Resources resources) {
-        BitmapDrawable particleIcon = (BitmapDrawable) resources.getDrawable(R.drawable.particle3x3b9x9);
-        particleIconBitmap = particleIcon.getBitmap();
+        particleIconBitmap = ((BitmapDrawable) resources.getDrawable(R.drawable.particle3x3b9x9)).getBitmap();
+        headIconBitmap = ((BitmapDrawable) resources.getDrawable(R.drawable.particle13x13)).getBitmap();
     }
 
     public Bitmap getParticleIconBitmap() {
         return particleIconBitmap;
+    }
+
+    public Bitmap getHeadIconBitmap() {
+        return headIconBitmap;
     }
 }

@@ -15,6 +15,29 @@ public class Emitters {
         };
     }
 
+    public static Emitter at(final int minAge, final int maxAge, final Emitter emitter) {
+        final int age = RandUtils.rand(minAge, maxAge);
+        return new Emitter() {
+            @Override
+            public void emit(Particle master, Particles particles) {
+                if (master.getAge() == age) {
+                    emitter.emit(master, particles);
+                }
+            }
+        };
+    }
+
+    public static Emitter ending(final Emitter emitter) {
+        return new Emitter() {
+            @Override
+            public void emit(Particle master, Particles particles) {
+                if (master.isRemove()) {
+                    emitter.emit(master, particles);
+                }
+            }
+        };
+    }
+
     public static Emitter repeat(final int count, final Emitter emitter) {
         return new Emitter() {
             @Override
