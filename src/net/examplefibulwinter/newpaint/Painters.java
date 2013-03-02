@@ -22,8 +22,9 @@ public class Painters {
 
 
             @Override
-            public void draw(Canvas canvas, Particle particle, float virtualToRealK) {
+            public void draw(Canvas canvas, Particle particle, float virtualToRealK, float phase) {
                 Bitmap particleIconBitmap = icons.getParticleIconBitmap();
+                paint.setAlpha((int) (255 * (1 - (1 - phase) * FadingCanvas.FADING_FACTOR)));
                 canvas.drawBitmap(particleIconBitmap, particle.getPosition().x * virtualToRealK - particleIconBitmap.getWidth() / 2,
                         particle.getPosition().y * virtualToRealK - particleIconBitmap.getHeight() / 2, paint);
 //                canvas.drawPoint(particle.getPosition().x * virtualToRealK+ RandUtils.rand(-20,20),
@@ -44,7 +45,7 @@ public class Painters {
 
 
             @Override
-            public void draw(Canvas canvas, Particle particle, float virtualToRealK) {
+            public void draw(Canvas canvas, Particle particle, float virtualToRealK, float phase) {
                 Bitmap particleIconBitmap = icons.getParticleIconBitmap();
                 canvas.drawBitmap(particleIconBitmap, particle.getPosition().x * virtualToRealK - particleIconBitmap.getWidth() / 2,
                         particle.getPosition().y * virtualToRealK - particleIconBitmap.getHeight() / 2, paint);
@@ -71,7 +72,7 @@ public class Painters {
 
 
             @Override
-            public void draw(Canvas canvas, Particle particle, float virtualToRealK) {
+            public void draw(Canvas canvas, Particle particle, float virtualToRealK, float phase) {
                 canvas.drawPoint(particle.getPosition().x * virtualToRealK,
                         particle.getPosition().y * virtualToRealK, paint);
             }
@@ -89,7 +90,7 @@ public class Painters {
 
 
             @Override
-            public void draw(Canvas canvas, Particle particle, float virtualToRealK) {
+            public void draw(Canvas canvas, Particle particle, float virtualToRealK, float phase) {
                 if (!RandUtils.withProbability(blinkShare)) {
                     canvas.drawPoint(particle.getPosition().x * virtualToRealK,
                             particle.getPosition().y * virtualToRealK, paint);
@@ -110,7 +111,7 @@ public class Painters {
 
 
             @Override
-            public void draw(Canvas canvas, Particle particle, float virtualToRealK) {
+            public void draw(Canvas canvas, Particle particle, float virtualToRealK, float phase) {
                 Bitmap particleIconBitmap = icons.getHeadIconBitmap();
                 canvas.drawBitmap(particleIconBitmap, particle.getPosition().x * virtualToRealK - particleIconBitmap.getWidth() / 2,
                         particle.getPosition().y * virtualToRealK - particleIconBitmap.getHeight() / 2, paint);

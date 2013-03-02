@@ -68,21 +68,24 @@ public class PaintView extends ImageView {
     }
 
     private void createNewPainter() {
-        if (Math.random() < 0.01) {
+        if (Math.random() < 0.03) {
             redAndWhite();
         }
         if (Math.random() < 0.04) {
             blueToGreen();
         }
+        if (Math.random() < 0.02) {
+            withHeads();
+        }
         if (Math.random() < 0.04) {
             justRed();
         }
-        if (Math.random() < 0.04) {
+        if (Math.random() < 0.03) {
             yellowToRed();
         }
     }
 
-    private void foo2() {
+    private void withHeads() {
         int colorBig = RandUtils.randomColor();
         int colorSmall = RandUtils.randomColor();
         EmitterBuilder shot = new EmitterBuilder().shoot().painter(painters.big(Color.WHITE)).speedDegrading(1.0f);
@@ -151,10 +154,10 @@ public class PaintView extends ImageView {
         int colorStarting = Color.parseColor("#a6bbf4");
         int colorEnding = Color.parseColor("#3e8c29");
         EmitterBuilder shot = new EmitterBuilder().shoot().painter(painters.big(Color.WHITE)).speedDegrading(1.0f);
-        Emitter endingEmitter = new EmitterBuilder().color(painters, colorEnding).ttl(6, 7)
+        Emitter endingEmitter = new EmitterBuilder().color(painters, colorEnding).ttl(9, 10)
                 .build();
-        Emitter startingEmitter = new EmitterBuilder().color(painters, colorStarting).ttl(6, 7)
-                .randomSpeed(20).withEmitter(Emitters.ending(endingEmitter)).build();
+        Emitter startingEmitter = new EmitterBuilder().color(painters, colorStarting).ttl(3, 4)
+                .randomSpeed(20).withEmitter(ending(endingEmitter)).build();
         shot.withEmitter(at(20, repeat(24, startingEmitter)));
         shot.build().emit(null, particles);
     }

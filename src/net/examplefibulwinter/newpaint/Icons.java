@@ -11,7 +11,7 @@ public class Icons {
 
     public Icons(Resources resources) {
         particleIconBitmap = ((BitmapDrawable) resources.getDrawable(R.drawable.particle3x3b9x9)).getBitmap();
-        headIconBitmap = ((BitmapDrawable) resources.getDrawable(R.drawable.particle13x13)).getBitmap();
+        headIconBitmap = ((BitmapDrawable) resources.getDrawable(R.drawable.particle3x3b7x7)).getBitmap();
     }
 
     public Bitmap getParticleIconBitmap() {

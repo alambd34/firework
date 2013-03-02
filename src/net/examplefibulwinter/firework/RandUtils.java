@@ -17,7 +17,7 @@ public class RandUtils {
             v.scale((float) (1 / Math.sqrt(v.squareLength())));
             rands[i] = v;
         }
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 10; i++) {
             spread();
         }
     }

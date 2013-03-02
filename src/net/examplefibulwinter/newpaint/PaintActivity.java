@@ -22,4 +22,16 @@ public class PaintActivity extends Activity {
         lock.disableKeyguard();
         setContentView(R.layout.paint);
     }
+
+    @Override
+    protected void onResume() {
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        super.onPause();
+    }
 }

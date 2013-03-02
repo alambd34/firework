@@ -6,6 +6,8 @@ import android.graphics.Color;
 
 public class FadingCanvas {
 
+    public static final float FADING_FACTOR = 75f / 256f;
+    public static final int FADER = Color.argb((int) (FADING_FACTOR * 256), 0, 0, 0);
     private Canvas canvas;
     private Bitmap bmp;
 
@@ -19,7 +21,7 @@ public class FadingCanvas {
     }
 
     public void fade() {
-        canvas.drawColor(Color.argb(75, 0, 0, 0));
+        canvas.drawColor(FADER);
     }
 
     public Bitmap getBmp() {

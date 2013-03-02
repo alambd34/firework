@@ -36,8 +36,9 @@ public class Particle {
     }
 
     public void paint(Canvas canvas, Particles particles) {
-        physicalUpdate(particles);
+        physicalUpdate();
         paint(canvas, VirtualScreen.virtualToReal(canvas));
+        emit(particles);
     }
 
     public void add(Emitter emitter) {
@@ -60,9 +61,12 @@ public class Particle {
         return remove;
     }
 
-    private void physicalUpdate(Particles particles) {
+    private void physicalUpdate() {
         velocity.add(gravity);
         velocity.scale(speedDegradingFactor);
+    }
+
+    private void emit(Particles particles) {
         age++;
         for (Emitter emitter : emitters) {
             emitter.emit(this, particles);
@@ -73,11 +77,12 @@ public class Particle {
         if (painter != null) {
             int steps = calculatePaintingStepsCount(virtualToRealK);
             V scaledVelocity = new V(velocity);
-            scaledVelocity.scale(1f / steps);
+            float scale = 1f / steps;
+            scaledVelocity.scale(scale);
             for (int i = 0; i < steps; i++) {
                 position.add(scaledVelocity);
                 //                canvas.drawPoint(painter.getPosition().x, painter.getPosition().y, firePaint);
-                painter.draw(canvas, this, virtualToRealK);
+                painter.draw(canvas, this, virtualToRealK, i * scale);
             }
         }
     }
@@ -104,7 +109,7 @@ public class Particle {
 
     public void paintReal(Canvas realCanvas) {
         if (realPainter != null) {
-            realPainter.draw(realCanvas, this, VirtualScreen.virtualToReal(realCanvas));
+            realPainter.draw(realCanvas, this, VirtualScreen.virtualToReal(realCanvas), 1);
         }
     }
 
